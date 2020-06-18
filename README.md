@@ -8,14 +8,11 @@
 
 ```kotlin
 val intent = Intent(this, SecondActivity::class.java)
-this.launch4Result(intent, requestCode, object : AuthCallBack {
-     override fun result(requestCode: Int, resultCode: Int, data: Intent?) {
-         // data 为空或者requestCode不为RESULT_OK 失败
-         when (resultCode) {
-             Activity.RESULT_OK -> showToast(data?.getStringExtra("key"))
-             else -> showToast("失败！！")
-         }
-     }
+this.launch4Result(intent, 256, callBack = { requestCode, resultCode, data ->
+    when (resultCode) {
+        Activity.RESULT_OK -> showToast(data?.getStringExtra("1"))
+        else -> showToast("失败！！")
+    }
 })
 ```
 
