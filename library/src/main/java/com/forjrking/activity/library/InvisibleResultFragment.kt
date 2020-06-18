@@ -14,16 +14,22 @@ import java.lang.ref.WeakReference
  */
 class InvisibleResultFragment : Fragment() {
 
-    private val callBacks: ArrayMap<Int, WeakReference<AuthCallBack>> by lazy { ArrayMap<Int, WeakReference<AuthCallBack>>() }
+    private val callBacks: ArrayMap<Int, WeakReference<((Int, Int, Intent?) -> Unit)>> by lazy {
+        ArrayMap<Int, WeakReference<((Int, Int, Intent?) -> Unit)>>()
+    }
 
-    fun launchActivity(intent: Intent, requestCode: Int, callBack: AuthCallBack) {
+    fun launchActivity(
+        intent: Intent,
+        requestCode: Int,
+        callBack: (requestCode: Int, resultCode: Int, data: Intent?) -> Unit
+    ) {
         callBacks[requestCode] = WeakReference(callBack)
         startActivityForResult(intent, requestCode)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        val callBack: AuthCallBack? = callBacks.remove(requestCode)?.get()
-        callBack?.result(requestCode, resultCode, data)
+        val callBack = callBacks.remove(requestCode)?.get()
+        callBack?.invoke(requestCode, resultCode, data)
     }
 }

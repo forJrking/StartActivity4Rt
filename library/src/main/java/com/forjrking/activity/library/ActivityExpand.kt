@@ -12,9 +12,9 @@ import androidx.fragment.app.FragmentManager
  * @Version: 1.0.0
  */
 
-const val FRAGMENT_TAG = "launch4Result_TAG"
+private const val FRAGMENT_TAG = "launch4Result_TAG"
 
-fun FragmentActivity.launch4Result(intent: Intent, requestCode: Int, callBack: AuthCallBack) {
+fun FragmentActivity.launch4Result(intent: Intent, requestCode: Int, callBack: (requestCode: Int, resultCode: Int, data: Intent?) -> Unit) {
     getInvisibleFragment(this)?.launchActivity(intent, requestCode, callBack)
 }
 

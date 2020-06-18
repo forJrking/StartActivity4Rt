@@ -21,9 +21,9 @@ class ThreeActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ActivityExpandKt.launch4Result(this, new Intent(), 100, new AuthCallBack() {
+        ActivityExpandKt.launch4Result(this, new Intent(), 100, new AuthCallBack(){
             @Override
-            public void result(int requestCode, int resultCode, @org.jetbrains.annotations.Nullable Intent data) {
+            protected void result(int requestCode, int resultCode, @Nullable Intent data) {
 
             }
         });
