@@ -1,6 +1,6 @@
-# StartActivicyForResult 简易化
+# 使startActivityForResult的api回调简易化
 
-> 本库用于简化`startActivity``onActivityResult`繁琐的回调处理
+> 本库用于简化`startActivity(..)``onActivityResult(..)`繁琐的回调处理
 
 ## 使用
 
@@ -10,7 +10,7 @@
 val intent = Intent(this, SecondActivity::class.java)
 this.launch4Result(intent, 256, callBack = { requestCode, resultCode, data ->
     when (resultCode) {
-        Activity.RESULT_OK -> showToast(data?.getStringExtra("1"))
+        Activity.RESULT_OK -> showToast(data?.getStringExtra("ok"))
         else -> showToast("失败！！")
     }
 })
@@ -35,18 +35,24 @@ ActivityExpandKt.launch4Result(this, new Intent(), 100, new AuthCallBack() {
 
 ```kotlin
 class InvisibleResultFragment : Fragment() {
-	// WeakReference防止传入的匿名内部类导致内存泄漏
-    private val callBacks: ArrayMap<Int, WeakReference<AuthCallBack>> by lazy { ArrayMap<Int, WeakReference<AuthCallBack>>() }
 
-    fun launchActivity(intent: Intent, requestCode: Int, callBack: AuthCallBack) {
+    private val callBacks: ArrayMap<Int, WeakReference<((Int, Int, Intent?) -> Unit)>> by lazy {
+        ArrayMap<Int, WeakReference<((Int, Int, Intent?) -> Unit)>>()
+    }
+
+    fun launchActivity(
+        intent: Intent,
+        requestCode: Int,
+        callBack: (requestCode: Int, resultCode: Int, data: Intent?) -> Unit
+    ) {
         callBacks[requestCode] = WeakReference(callBack)
         startActivityForResult(intent, requestCode)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        val callBack: AuthCallBack? = callBacks.remove(requestCode)?.get()
-        callBack?.result(requestCode, resultCode, data)
+        val callBack = callBacks.remove(requestCode)?.get()
+        callBack?.invoke(requestCode, resultCode, data)
     }
 }
 ```
@@ -56,4 +62,6 @@ class InvisibleResultFragment : Fragment() {
 ### 参考
 
 [Fragment中调用startActivityForResult的那些坑](https://yq.aliyun.com/articles/680562)
+
+[巧妙的用Fragment实现回调~一波骚操作](https://mp.weixin.qq.com/s/muLyKEcLEALDmGZPBRtj5A)
 

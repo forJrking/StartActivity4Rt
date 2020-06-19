@@ -6,14 +6,15 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 
 /**
- * @Description:
+ * @Description: Activity扩展工具类
  * @Author: forJrking
  * @CreateDate: 2020/6/17 10:36
  * @Version: 1.0.0
  */
 
-private const val FRAGMENT_TAG = "launch4Result_TAG"
+private const val FRAGMENT_TAG = "#TAG_LAUNCH4RESULT"
 
+/**扩展函数支持 FragmentActivity和子类 注意不支持Activity*/
 fun FragmentActivity.launch4Result(intent: Intent, requestCode: Int, callBack: (requestCode: Int, resultCode: Int, data: Intent?) -> Unit) {
     getInvisibleFragment(this)?.launchActivity(intent, requestCode, callBack)
 }

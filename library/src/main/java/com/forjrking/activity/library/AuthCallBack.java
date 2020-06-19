@@ -21,5 +21,10 @@ public abstract class AuthCallBack implements Function3<Integer, Integer, Intent
         return null;
     }
 
+    /**
+     * @param requestCode 请求码
+     * @param resultCode 结果码
+     * @param data  intent
+     */
     protected abstract void result(int requestCode, int resultCode, @Nullable Intent data);
 }
