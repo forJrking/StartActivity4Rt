@@ -15,9 +15,9 @@ import java.lang.ref.WeakReference
 class InvisibleResultFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         //旋转屏幕不销毁
         retainInstance = true
-        super.onCreate(savedInstanceState)
     }
 
     /**防止内存泄漏*/
