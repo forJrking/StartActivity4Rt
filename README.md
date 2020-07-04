@@ -1,6 +1,6 @@
 # 使startActivityForResult的api回调简易化
 
-> 本库用于简化`startActivity(..)``onActivityResult(..)`繁琐的回调处理
+> 本库用于简化`startActivityForResult(..)``onActivityResult(..)`繁琐的回调处理
 
 ## 使用
 
